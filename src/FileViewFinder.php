@@ -20,15 +20,15 @@ class FileViewFinder extends BaseFileViewFinder
 
         $name = trim($name);
 
+		if ($this->hasHintInformation($name)) {
+            return $this->views[$name] = $this->findNamespacedView($name);
+        }
+		
         if (app(Theme::class)->isUseTheme()) {
             $name = $this->currentTheme . static::HINT_PATH_DELIMITER . $name;
             return $this->views[$name] = $this->findNamespacedView($name);
         }
-
-        if ($this->hasHintInformation($name)) {
-            return $this->views[$name] = $this->findNamespacedView($name);
-        }
-
+		
         return $this->views[$name] = $this->findInPaths($name, $this->paths);
     }
 }
