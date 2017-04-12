@@ -6,24 +6,6 @@ use Illuminate\View\FileViewFinder as BaseFileViewFinder;
 
 class FileViewFinder extends BaseFileViewFinder
 {
-    protected $isUseTheme = false;
-    protected $currentTheme = '';
-
-    public function setCurrentTheme($themeName)
-    {
-        $this->currentTheme = $themeName;
-    }
-
-    public function useTheme()
-    {
-        $this->isUseTheme = true;
-    }
-
-    public function cancelTheme()
-    {
-        $this->isUseTheme = false;
-    }
-
     /**
      * Get the fully qualified location of the view.
      *
@@ -38,7 +20,7 @@ class FileViewFinder extends BaseFileViewFinder
 
         $name = trim($name);
 
-        if ($this->isUseTheme) {
+        if (app(Theme::class)->isUseTheme()) {
             $name = $this->currentTheme . static::HINT_PATH_DELIMITER . $name;
             return $this->views[$name] = $this->findNamespacedView($name);
         }

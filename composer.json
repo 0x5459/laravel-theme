@@ -14,7 +14,9 @@
     ],
     "license": "MIT",
     "require": {
-        "illuminate/view": "^5.1"
+        "illuminate/view": "^5.1",
+        "illuminate/console": "^5.1",
+        "illuminate/routing": "^5.1"
     },
     "autoload": {
         "files": [

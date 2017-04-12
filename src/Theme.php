@@ -11,6 +11,23 @@ class Theme
     protected $files;
     protected $currentTheme;
     protected $currentThemeConfig = null;
+    protected $isUseTheme = false;
+
+    public function isUseTheme()
+    {
+        return $this->isUseTheme;
+    }
+
+    public function useTheme()
+    {
+        $this->isUseTheme = true;
+    }
+
+    public function cancelTheme()
+    {
+        $this->isUseTheme = false;
+    }
+
     public function __construct(Filesystem $files, $config)
     {
         $this->files = $files;
@@ -18,11 +35,23 @@ class Theme
         $this->setCurrentTheme($config['default_theme']);
     }
 
+    public function getConfig($key = null)
+    {
+        if(!is_null($key)){
+            return $this->config[$key];
+        }
+        return $this->config;
+    }
+
     public function setCurrentTheme($theme)
     {
         $this->currentTheme = $theme;
-        View::setCurrentTheme($theme);
         View::replaceNamespace($theme, $this->config['theme_path'] . DIRECTORY_SEPARATOR . $theme);
+    }
+
+    public function getCurrentTheme()
+    {
+        return $this->currentTheme;
     }
 
     public function getAllThemeConfig()
@@ -32,7 +61,7 @@ class Theme
         foreach ($themePaths as $themePath) {
             $configFile = $themePath . DIRECTORY_SEPARATOR . $this->config['config_file_name'];
             if ($this->files->exists($configFile)) {
-                $themeConfigs[] = json_decode($this->files->get($configFile), true);
+                $themeConfigs[basename($themePath)] = json_decode($this->files->get($configFile), true);
             }
         }
         return $themeConfigs;
@@ -59,20 +88,10 @@ class Theme
         return $this->currentThemeConfig;
     }
 
-    /*public function getContentTemplate()
-    {
-        $contentTemplates = $this->getCurrentThemeConfig()['content_template'];
-        foreach ($contentTemplates as &$contentTemplate) {
-            $contentTemplate['title'] .= "({$contentTemplate['file_name']})";
-        }
-        unset($contentTemplate);
-        return $contentTemplates;
-    }*/
-
 
     public function themeView($view, $data = [], $mergeData = [])
     {
-        View::useTheme();
+        $this->useTheme();
         return View::make($view, $data, $mergeData);
     }
 
