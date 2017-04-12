@@ -1,6 +1,6 @@
 <?php
 
-if (! function_exists('view')) {
+if (! function_exists('theme_view')) {
     /**
      * 获取当前主题的视图
      * @param $view
@@ -8,9 +8,9 @@ if (! function_exists('view')) {
      * @param array $mergeData
      * @return \Illuminate\Contracts\View\View
      */
-    function view($view = null, $data = [], $mergeData = [])
+    function theme_view($view = null, $data = [], $mergeData = [])
     {
 
-        return app(\App\Package\Theme\src\Theme::class)->view($view, $data, $mergeData);
+        return app(\Ty666\LaravelTheme\Theme::class)->themeView($view, $data, $mergeData);
     }
 }
