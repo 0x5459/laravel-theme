@@ -1,9 +1,9 @@
 <?php
 namespace Ty666\LaravelTheme;
 
-use Ty666\LaravelTheme\Exception\ThemeNotFound;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\View;
+use Ty666\LaravelTheme\Exception\ThemeNotFound;
 
 class Theme
 {
@@ -37,7 +37,7 @@ class Theme
 
     public function getConfig($key = null)
     {
-        if(!is_null($key)){
+        if (!is_null($key)) {
             return $this->config[$key];
         }
         return $this->config;
@@ -59,10 +59,8 @@ class Theme
         $themePaths = $this->files->directories($this->config['theme_path']);
         $themeConfigs = [];
         foreach ($themePaths as $themePath) {
-            $configFile = $themePath . DIRECTORY_SEPARATOR . $this->config['config_file_name'];
-            if ($this->files->exists($configFile)) {
-                $themeConfigs[basename($themePath)] = json_decode($this->files->get($configFile), true);
-            }
+            $themeName = basename($themePath);
+            $themeConfigs[$themeName] = $this->getThemeConfig($themeName);
         }
         return $themeConfigs;
     }
@@ -72,17 +70,30 @@ class Theme
         if (is_null($themeName)) {
             $themeName = $this->currentTheme;
         }
-        $configFile = $this->config['theme_path']. DIRECTORY_SEPARATOR . $themeName . DIRECTORY_SEPARATOR . $this->config['config_file_name'];
+        $themePath = $this->config['theme_path'] . DIRECTORY_SEPARATOR . $themeName . DIRECTORY_SEPARATOR;
+        $configFile = $themePath . $this->config['config_file_name'];
 
         if (!$this->files->exists($configFile)) {
-            throw new ThemeNotFound($themeName.' 主题不存在');
+            throw new ThemeNotFound($themeName . ' 主题不存在');
         }
-        return json_decode($this->files->get($configFile), true);
+        $themeConfig = json_decode($this->files->get($configFile), true);
+
+        // 获取主题截图
+        $themeConfig['screenshot'] = null;
+        $screenshotPath = $themePath . $this->config['static_folder'] . DIRECTORY_SEPARATOR . $this->config['screenshot_name'];
+        foreach (['jpg', 'png'] as $value) {
+
+            if ($this->files->exists($screenshotPath . '.' . $value)) {
+                $themeConfig['screenshot'] = app('url')->assetWithTheme($this->config['screenshot_name'] . '.' . $value, null, $themeName);
+                break;
+            }
+        }
+        return $themeConfig;
     }
 
     public function getCurrentThemeConfig()
     {
-        if(is_null($this->currentThemeConfig)){
+        if (is_null($this->currentThemeConfig)) {
             $this->currentThemeConfig = $this->getThemeConfig();
         }
         return $this->currentThemeConfig;

@@ -14,3 +14,13 @@ if (! function_exists('theme_view')) {
         return app(\Ty666\LaravelTheme\Theme::class)->themeView($view, $data, $mergeData);
     }
 }
+
+if (! function_exists('asset_with_theme')) {
+    /**
+     * 使用当前请求的 scheme（HTTP或HTTPS）为指定的主题前端资源生成一个URL：
+     */
+    function asset_with_theme($path, $secure = null, $themeName = null)
+    {
+        return app('url')->asset_with_theme($path, $secure, $themeName);
+    }
+}

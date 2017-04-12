@@ -22,4 +22,20 @@ class UrlGenerator extends BaseUrlGenerator
 
         return $this->removeIndex($root) . '/' . trim($path, '/');
     }
+
+    public function assetWithTheme($path, $secure = null, $themeName = null)
+    {
+        if ($this->isValidUrl($path)) {
+            return $path;
+        }
+        $theme = app(Theme::class);
+        if(is_null($themeName))
+        {
+            $themeName = $theme->getCurrentTheme();
+        }
+        $root = $this->formatRoot($this->formatScheme($secure));
+
+        return $this->removeIndex($root) . '/' . $theme->getConfig('public_theme_folder') . '/' . $themeName . '/' . trim($path, '/');
+
+    }
 }
