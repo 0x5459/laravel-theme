@@ -1,0 +1,27 @@
+{
+    "name": "ty666/laravel-theme",
+    "description": "Make laravel support theme",
+    "keywords": [
+        "theme",
+        "view",
+        "laravel"
+    ],
+    "authors": [
+        {
+            "name": "ty",
+            "email": "1255803549@qq.com"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "illuminate/view": "^5.1"
+    },
+    "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
+        "psr-4": {
+            "Ty666\\LaravelTheme\\": "src/"
+        }
+    }
+}
