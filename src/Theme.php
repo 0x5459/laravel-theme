@@ -60,7 +60,12 @@ class Theme
         $themeConfigs = [];
         foreach ($themePaths as $themePath) {
             $themeName = basename($themePath);
-            $themeConfigs[$themeName] = $this->getThemeConfig($themeName);
+            try {
+                $themeConfigs[] = $this->getThemeConfig($themeName) + ['theme_id' => $themeName];
+            } catch (ThemeNotFound $e) {
+                continue;
+            }
+
         }
         return $themeConfigs;
     }

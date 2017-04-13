@@ -37,13 +37,13 @@ class Link extends Command
             $files->makeDirectory(public_path($config['public_theme_folder']));
         }
 
-        foreach ($allThemeConfig as $themeName => $themeConfig) {
-            $staticPath = $config['theme_path'] . DIRECTORY_SEPARATOR . $themeName . DIRECTORY_SEPARATOR . $config['static_folder'];
+        foreach ($allThemeConfig as $themeConfig) {
+            $staticPath = $config['theme_path'] . DIRECTORY_SEPARATOR . $themeConfig['theme_id'] . DIRECTORY_SEPARATOR . $config['static_folder'];
             if (file_exists($staticPath)) {
                 $files->link(
-                    $staticPath, public_path($config['public_theme_folder'] . DIRECTORY_SEPARATOR . $themeName)
+                    $staticPath, public_path($config['public_theme_folder'] . DIRECTORY_SEPARATOR . $themeConfig['theme_id'])
                 );
-                $this->info('The [public' . DIRECTORY_SEPARATOR . $config['public_theme_folder'] . DIRECTORY_SEPARATOR . $themeName . '] directory has been linked.');
+                $this->info('The [public' . DIRECTORY_SEPARATOR . $config['public_theme_folder'] . DIRECTORY_SEPARATOR . $themeConfig['theme_id'] . '] directory has been linked.');
             }
         }
     }
