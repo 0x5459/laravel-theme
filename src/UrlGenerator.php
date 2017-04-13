@@ -23,19 +23,19 @@ class UrlGenerator extends BaseUrlGenerator
         return $this->removeIndex($root) . '/' . trim($path, '/');
     }
 
-    public function assetWithTheme($path, $secure = null, $themeName = null)
+    public function assetWithTheme($path, $secure = null, $themeId = null)
     {
         if ($this->isValidUrl($path)) {
             return $path;
         }
         $theme = app(Theme::class);
-        if(is_null($themeName))
+        if(is_null($themeId))
         {
-            $themeName = $theme->getCurrentTheme();
+            $themeId = $theme->getCurrentTheme();
         }
         $root = $this->formatRoot($this->formatScheme($secure));
 
-        return $this->removeIndex($root) . '/' . $theme->getConfig('public_theme_folder') . '/' . $themeName . '/' . trim($path, '/');
+        return $this->removeIndex($root) . '/' . $theme->getConfig('public_theme_folder') . '/' . $themeId . '/' . trim($path, '/');
 
     }
 }

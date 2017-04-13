@@ -59,9 +59,9 @@ class Theme
         $themePaths = $this->files->directories($this->config['theme_path']);
         $themeConfigs = [];
         foreach ($themePaths as $themePath) {
-            $themeName = basename($themePath);
+            $themeId = basename($themePath);
             try {
-                $themeConfigs[] = $this->getThemeConfig($themeName) + ['theme_id' => $themeName];
+                $themeConfigs[] = $this->getThemeConfig($themeId) + ['theme_id' => $themeId];
             } catch (ThemeNotFound $e) {
                 continue;
             }
@@ -70,16 +70,16 @@ class Theme
         return $themeConfigs;
     }
 
-    public function getThemeConfig($themeName = null)
+    public function getThemeConfig($themeId = null)
     {
-        if (is_null($themeName)) {
-            $themeName = $this->currentTheme;
+        if (is_null($themeId)) {
+            $themeId = $this->currentTheme;
         }
-        $themePath = $this->config['theme_path'] . DIRECTORY_SEPARATOR . $themeName . DIRECTORY_SEPARATOR;
+        $themePath = $this->config['theme_path'] . DIRECTORY_SEPARATOR . $themeId . DIRECTORY_SEPARATOR;
         $configFile = $themePath . $this->config['config_file_name'];
 
         if (!$this->files->exists($configFile)) {
-            throw new ThemeNotFound($themeName . ' 主题不存在');
+            throw new ThemeNotFound($themeId . ' 主题不存在');
         }
         $themeConfig = json_decode($this->files->get($configFile), true);
 
@@ -89,7 +89,7 @@ class Theme
         foreach (['jpg', 'png'] as $value) {
 
             if ($this->files->exists($screenshotPath . '.' . $value)) {
-                $themeConfig['screenshot'] = app('url')->assetWithTheme($this->config['screenshot_name'] . '.' . $value, null, $themeName);
+                $themeConfig['screenshot'] = app('url')->assetWithTheme($this->config['screenshot_name'] . '.' . $value, null, $themeId);
                 break;
             }
         }

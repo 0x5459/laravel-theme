@@ -19,8 +19,8 @@ if (! function_exists('asset_with_theme')) {
     /**
      * 使用当前请求的 scheme（HTTP或HTTPS）为指定的主题前端资源生成一个URL：
      */
-    function asset_with_theme($path, $secure = null, $themeName = null)
+    function asset_with_theme($path, $secure = null, $themeId = null)
     {
-        return app('url')->asset_with_theme($path, $secure, $themeName);
+        return app('url')->asset_with_theme($path, $secure, $themeId);
     }
 }
