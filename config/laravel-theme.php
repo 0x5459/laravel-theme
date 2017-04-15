@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'theme_path' => app_path('themes'),
+    'theme_path' => base_path('themes'),
     'config_file_name' => 'config.json',
     'default_theme' => 'default',
     'assets_folder' => 'assets',
