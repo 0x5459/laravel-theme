@@ -19,7 +19,7 @@ class Link extends Command
      *
      * @var string
      */
-    public $description = 'Create a symbolic link from "public/{public_theme_path}/{theme_name}" to "{theme_path}/{theme_name}/{assets_folder}"';
+    public $description = 'Create a symbolic link from "public/{public_theme_path}/{theme_name}" to "{theme_path}/{theme_name}/{static_folder}"';
 
 
     /**
@@ -38,7 +38,7 @@ class Link extends Command
         }
 
         foreach ($allThemeConfig as $themeConfig) {
-            $staticPath = $config['theme_path'] . DIRECTORY_SEPARATOR . $themeConfig['theme_id'] . DIRECTORY_SEPARATOR . $config['assets_folder'];
+            $staticPath = $config['theme_path'] . DIRECTORY_SEPARATOR . $themeConfig['theme_id'] . DIRECTORY_SEPARATOR . $config['static_folder'];
             if (file_exists($staticPath)) {
                 $files->link(
                     $staticPath, public_path($config['public_theme_folder'] . DIRECTORY_SEPARATOR . $themeConfig['theme_id'])

@@ -85,7 +85,7 @@ class Theme
 
         // 获取主题截图
         $themeConfig['screenshot'] = null;
-        $screenshotPath = $themePath . $this->config['assets_folder'] . DIRECTORY_SEPARATOR . $this->config['screenshot_name'];
+        $screenshotPath = $themePath . $this->config['static_folder'] . DIRECTORY_SEPARATOR . $this->config['screenshot_name'];
         foreach (['jpg', 'png'] as $value) {
 
             if ($this->files->exists($screenshotPath . '.' . $value)) {
