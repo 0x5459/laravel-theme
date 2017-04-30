@@ -19,7 +19,7 @@ class Link extends Command
      *
      * @var string
      */
-    public $description = 'Create a symbolic link from "public/{public_theme_path}/{theme_name}" to "{theme_path}/{theme_name}/{static_folder}"';
+    public $description = 'Create a symbolic link from "public/{public_themes_path}/{theme_name}" to "{themes_path}/{theme_name}/{static_folder}"';
 
 
     /**
@@ -33,18 +33,18 @@ class Link extends Command
         $files = $this->laravel->make('files');
         $allThemeConfig = $this->laravel->make(Theme::class)->getAllThemeConfig();
 
-        if(!file_exists(public_path($config['public_theme_folder']))){
-            $files->makeDirectory(public_path($config['public_theme_folder']));
+        if(!file_exists(public_path($config['public_themes_folder']))){
+            $files->makeDirectory(public_path($config['public_themes_folder']));
         }
 
         foreach ($allThemeConfig as $themeConfig) {
-            $staticPath = $config['theme_path'] . DIRECTORY_SEPARATOR . $themeConfig['theme_id'] . DIRECTORY_SEPARATOR . $themeConfig['static_folder'];
+            $staticPath = $config['themes_path'] . DIRECTORY_SEPARATOR . $themeConfig['theme_id'] . DIRECTORY_SEPARATOR . $themeConfig['static_folder'];
 
             if (file_exists($staticPath)) {
                 $files->link(
-                    $staticPath, public_path($config['public_theme_folder'] . DIRECTORY_SEPARATOR . $themeConfig['theme_id'])
+                    $staticPath, public_path($config['public_themes_folder'] . DIRECTORY_SEPARATOR . $themeConfig['theme_id'])
                 );
-                $this->info('The [public' . DIRECTORY_SEPARATOR . $config['public_theme_folder'] . DIRECTORY_SEPARATOR . $themeConfig['theme_id'] . '] directory has been linked.');
+                $this->info('The [public' . DIRECTORY_SEPARATOR . $config['public_themes_folder'] . DIRECTORY_SEPARATOR . $themeConfig['theme_id'] . '] directory has been linked.');
             }
         }
     }

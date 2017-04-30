@@ -45,7 +45,7 @@ if (!function_exists('mix')) {
 
         $theme = app(\Ty666\LaravelTheme\Theme::class);
         if (!$manifestDirectory && $theme->isUseTheme()) {
-            $manifestDirectory = '/'.$theme->getConfig('public_theme_folder') . '/' . $theme->getCurrentTheme();
+            $manifestDirectory = '/'.$theme->getConfig('public_themes_folder') . '/' . $theme->getCurrentTheme();
         }else if ($manifestDirectory && !starts_with($manifestDirectory, '/')) {
             $manifestDirectory = "/{$manifestDirectory}";
         }

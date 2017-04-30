@@ -17,7 +17,7 @@ class UrlGenerator extends BaseUrlGenerator
 
         $theme = app(Theme::class);
         if ($theme->isUseTheme()) {
-            return $this->removeIndex($root) . '/' . $theme->getConfig('public_theme_folder') . '/' . $theme->getCurrentTheme() . '/' . trim($path, '/');
+            return $this->removeIndex($root) . '/' . $theme->getConfig('public_themes_folder') . '/' . $theme->getCurrentTheme() . '/' . trim($path, '/');
         }
 
         return $this->removeIndex($root) . '/' . trim($path, '/');
@@ -35,7 +35,7 @@ class UrlGenerator extends BaseUrlGenerator
         }
         $root = $this->formatRoot($this->formatScheme($secure));
 
-        return $this->removeIndex($root) . '/' . $theme->getConfig('public_theme_folder') . '/' . $themeId . '/' . trim($path, '/');
+        return $this->removeIndex($root) . '/' . $theme->getConfig('public_themes_folder') . '/' . $themeId . '/' . trim($path, '/');
 
     }
 }

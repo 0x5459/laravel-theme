@@ -46,7 +46,7 @@ class Theme
     public function setCurrentTheme($theme)
     {
         $this->currentTheme = $theme;
-        View::replaceNamespace($theme, $this->config['theme_path'] . DIRECTORY_SEPARATOR . $theme);
+        View::replaceNamespace($theme, $this->config['themes_path'] . DIRECTORY_SEPARATOR . $theme);
     }
 
     public function getCurrentTheme()
@@ -56,7 +56,7 @@ class Theme
 
     public function getAllThemeConfig()
     {
-        $themePaths = $this->files->directories($this->config['theme_path']);
+        $themePaths = $this->files->directories($this->config['themes_path']);
         $themeConfigs = [];
         foreach ($themePaths as $themePath) {
             $themeId = basename($themePath);
@@ -75,7 +75,7 @@ class Theme
         if (is_null($themeId)) {
             $themeId = $this->currentTheme;
         }
-        $themePath = $this->config['theme_path'] . DIRECTORY_SEPARATOR . $themeId . DIRECTORY_SEPARATOR;
+        $themePath = $this->config['themes_path'] . DIRECTORY_SEPARATOR . $themeId . DIRECTORY_SEPARATOR;
         $configFile = $themePath . $this->config['config_file_name'];
 
         if (!$this->files->exists($configFile)) {
