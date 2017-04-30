@@ -82,14 +82,25 @@ class Theme
             throw new ThemeNotFound($themeId . ' 主题不存在');
         }
         $themeConfig = json_decode($this->files->get($configFile), true);
+        
+        // 静态资源目录
+        if(!isset($themeConfig['static_folder'])){
+            $themeConfig['static_folder'] = $this->config['default_static_folder'];
+        }
+        // 主题图片
+        if(!isset($themeConfig['screenshot_name'])){
+            $themeConfig['screenshot_name'] = $this->config['default_screenshot_name'];
+        }
 
-        // 获取主题截图
-        $themeConfig['screenshot'] = null;
-        $screenshotPath = $themePath . $this->config['static_folder'] . DIRECTORY_SEPARATOR . $this->config['screenshot_name'];
-        foreach (['jpg', 'png'] as $value) {
+        $screenshotPathInfo = pathinfo($themeConfig['screenshot_name'].'.jpg');
+        $screenshotPath = $themePath . $themeConfig['static_folder'] . DIRECTORY_SEPARATOR . $screenshotPathInfo['filename'];
+
+        $extensions = isset($screenshotPathInfo['extension'])?[$screenshotPathInfo['extension']]:['jpg', 'png'];
+
+        foreach ($extensions as $value) {
 
             if ($this->files->exists($screenshotPath . '.' . $value)) {
-                $themeConfig['screenshot'] = app('url')->assetWithTheme($this->config['screenshot_name'] . '.' . $value, null, $themeId);
+                $themeConfig['screenshot'] = app('url')->assetWithTheme($themeConfig['static_folder'] . '.' . $value, null, $themeId);
                 break;
             }
         }
