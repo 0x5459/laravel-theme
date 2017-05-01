@@ -101,4 +101,8 @@ class Theme
         return View::make($view, $data, $mergeData);
     }
 
+    public function getCurrentThemePath()
+    {
+        return $this->config['themes_path'] . DIRECTORY_SEPARATOR . $this->currentTheme;
+    }
 }
