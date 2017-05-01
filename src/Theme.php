@@ -46,7 +46,7 @@ class Theme
     public function setCurrentTheme($theme)
     {
         $this->currentTheme = $theme;
-        View::replaceNamespace($theme, $this->config['themes_path'] . DIRECTORY_SEPARATOR . $theme);
+        View::replaceNamespace($theme, $this->config['themes_path'] . DIRECTORY_SEPARATOR . $theme . DIRECTORY_SEPARATOR . 'views');
     }
 
     public function getCurrentTheme()
@@ -82,28 +82,7 @@ class Theme
             throw new ThemeNotFound($themeId . ' 主题不存在');
         }
         $themeConfig = json_decode($this->files->get($configFile), true);
-        
-        // 静态资源目录
-        if(!isset($themeConfig['static_folder'])){
-            $themeConfig['static_folder'] = $this->config['default_static_folder'];
-        }
-        // 主题图片
-        if(!isset($themeConfig['screenshot_name'])){
-            $themeConfig['screenshot_name'] = $this->config['default_screenshot_name'];
-        }
-
-        $screenshotPathInfo = pathinfo($themeConfig['screenshot_name'].'.jpg');
-        $screenshotPath = $themePath . $themeConfig['static_folder'] . DIRECTORY_SEPARATOR . $screenshotPathInfo['filename'];
-
-        $extensions = isset($screenshotPathInfo['extension'])?[$screenshotPathInfo['extension']]:['jpg', 'png'];
-
-        foreach ($extensions as $value) {
-
-            if ($this->files->exists($screenshotPath . '.' . $value)) {
-                $themeConfig['screenshot'] = app('url')->assetWithTheme($themeConfig['static_folder'] . '.' . $value, null, $themeId);
-                break;
-            }
-        }
+        $themeConfig['screenshot_url'] = route($this->config['screenshot_route']['name'], $themeId);
         return $themeConfig;
     }
 

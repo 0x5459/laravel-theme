@@ -5,6 +5,12 @@ return [
     'config_file_name' => 'config.json',
     'public_themes_folder' => 'themes',
     'default_theme' => 'default',
-    'default_static_folder' => 'static',
-    'default_screenshot_name' => 'screenshot'
+    'default_screenshot_name' => 'screenshot',
+    'screenshot_route' => [
+        'url' => 'laravel-theme',
+        'name' => 'laravel-theme',
+        'options' => [
+            // middleware => 'auth',
+        ],
+    ]
 ];
