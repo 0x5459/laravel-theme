@@ -44,8 +44,8 @@ class LaravelThemeServiceProvider extends ServiceProvider
 
     public function registerTheme()
     {
-        $this->app->singleton(Theme::class, function ($app) {
-            return new Theme($app['files'], $app['config']['laravel-theme']);
+        $this->app->singleton(ThemeManager::class, function ($app) {
+            return new ThemeManager($app['files'], $app['config']['laravel-theme']);
         });
     }
 

@@ -10,6 +10,6 @@ if (!function_exists('theme_view')) {
      */
     function theme_view($view = null, $data = [], $mergeData = [])
     {
-        return app(\Ty666\LaravelTheme\Theme::class)->themeView($view, $data, $mergeData);
+        return app(\Ty666\LaravelTheme\ThemeManager::class)->themeView($view, $data, $mergeData);
     }
 }
