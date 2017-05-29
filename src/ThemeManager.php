@@ -39,7 +39,7 @@ class ThemeManager
     public function setActiveTheme($theme)
     {
         $this->activeTheme = $theme;
-        View::replaceNamespace($theme, $this->config['themes_path'] . DIRECTORY_SEPARATOR . $theme . DIRECTORY_SEPARATOR . 'views');
+        View::replaceNamespace('theme_' . $theme, $this->config['themes_path'] . DIRECTORY_SEPARATOR . $theme . DIRECTORY_SEPARATOR . 'views');
     }
     public function getActiveTheme()
     {

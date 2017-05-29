@@ -26,7 +26,7 @@ class FileViewFinder extends BaseFileViewFinder
 		
         $theme = app(ThemeManager::class);
         if ($theme->isUseTheme()) {
-            $name = $theme->getActiveTheme() . static::HINT_PATH_DELIMITER . $name;
+            $name = 'theme_' . $theme->getActiveTheme() . static::HINT_PATH_DELIMITER . $name;
             return $this->views[$name] = $this->findNamespacedView($name);
         }
 		
